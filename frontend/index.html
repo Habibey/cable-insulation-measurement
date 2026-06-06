@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kablo İzolasyon Kalınlığı Ölçüm Sistemi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="header">
+      <h1>Kablo İzolasyon Kalınlığı Ölçüm Sistemi</h1>
+      <p>
+        OpenCV tabanlı prototip: dış sınır, iç sınır, çap, izolasyon kalınlığı ve eksen kaçıklığı hesaplar.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="form-card">
+        <h2>Operatör Paneli</h2>
+
+        <label>Kablo Tipi</label>
+        <select id="cableType">
+          <option>Tek damarlı kablo</option>
+          <option>Çok damarlı kablo</option>
+        </select>
+
+        <label>Kesit ID</label>
+        <input id="sectionId" value="SECTION-001" />
+
+        <label>Kesit Tarihi</label>
+        <input id="sectionDate" type="date" />
+
+        <label>Pixel-mm Katsayısı</label>
+        <input id="pixelToMm" type="number" step="0.001" value="0.02" />
+
+        <label>Ölçüm Sayısı</label>
+        <input id="measurementCount" type="number" min="6" value="6" />
+
+        <label>Kesit Görüntüsü</label>
+        <input id="imageInput" type="file" accept="image/*" />
+
+        <div class="buttons">
+          <button onclick="measureCable()">Hesapla</button>
+          <button class="secondary" onclick="location.reload()">Yenile</button>
+        </div>
+
+        <p id="status"></p>
+      </div>
+
+      <div class="result-card">
+        <h2>Sonuç Görseli</h2>
+        <img id="resultImage" alt="Sonuç görseli burada gösterilecek" />
+      </div>
+    </section>
+
+    <section class="table-card">
+      <h2>Ölçüm Sonuçları</h2>
+
+      <table>
+        <tbody>
+          <tr>
+            <th>Dış Merkez</th>
+            <td id="outerCenter">-</td>
+          </tr>
+          <tr>
+            <th>İç Merkez</th>
+            <td id="innerCenter">-</td>
+          </tr>
+          <tr>
+            <th>Dış Çap</th>
+            <td id="outerDiameter">-</td>
+          </tr>
+          <tr>
+            <th>İç Çap</th>
+            <td id="innerDiameter">-</td>
+          </tr>
+          <tr>
+            <th>Min İzolasyon Kalınlığı</th>
+            <td id="minThickness">-</td>
+          </tr>
+          <tr>
+            <th>Max İzolasyon Kalınlığı</th>
+            <td id="maxThickness">-</td>
+          </tr>
+          <tr>
+            <th>Ortalama İzolasyon Kalınlığı</th>
+            <td id="meanThickness">-</td>
+          </tr>
+          <tr>
+            <th>Eksen Kaçıklığı</th>
+            <td id="eccentricity">-</td>
+          </tr>
+          <tr>
+            <th>Açısal Ölçümler</th>
+            <td id="measurements">-</td>
+          </tr>
+          <tr>
+            <th>Uyarı</th>
+            <td id="warning">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="json-card">
+      <h2>JSON Çıktısı</h2>
+      <pre id="jsonOutput">{}</pre>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

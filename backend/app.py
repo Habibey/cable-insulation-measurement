@@ -19,8 +19,8 @@ app.add_middleware(
 os.makedirs("backend/uploads", exist_ok=True)
 os.makedirs("backend/outputs", exist_ok=True)
 
+# Önce outputs klasörünü yayınlıyoruz
 app.mount("/outputs", StaticFiles(directory="backend/outputs"), name="outputs")
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
 
 @app.post("/api/measure")
@@ -48,3 +48,8 @@ async def measure_cable(
     )
 
     return result
+
+
+# BUNU EN SONA KOYUYORUZ
+# Çünkü "/" tüm yolları yakalayabilir.
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
