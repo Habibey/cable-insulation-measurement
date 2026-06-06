@@ -4,8 +4,13 @@ __pycache__/
 *.pyd
 
 backend/__pycache__/
+
 backend/uploads/*
 backend/outputs/*
 
 !backend/uploads/.gitkeep
 !backend/outputs/.gitkeep
+
+.env
+.venv/
+venv/
