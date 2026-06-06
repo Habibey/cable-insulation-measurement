@@ -31,6 +31,8 @@ async function measureCable() {
       throw new Error("API hatası oluştu.");
     }
 
+    lastMeasurementResult = data;
+
     showResults(data);
     status.innerText = "Hesaplama tamamlandı.";
   } catch (error) {
@@ -66,4 +68,46 @@ function showResults(data) {
 
   document.getElementById("jsonOutput").innerText =
     JSON.stringify(data, null, 2);
+}
+function createReport() {
+  const status = document.getElementById("status");
+
+  if (!lastMeasurementResult) {
+    alert("Rapor oluşturmak için önce hesaplama yapmalısınız.");
+    return;
+  }
+
+  const report = {
+    report_title: "Kablo İzolasyon Kalınlığı Ölçüm Raporu",
+    created_at: new Date().toISOString(),
+    operator_inputs: {
+      cable_type: document.getElementById("cableType").value,
+      section_id: document.getElementById("sectionId").value,
+      section_date: document.getElementById("sectionDate").value,
+      pixel_to_mm: document.getElementById("pixelToMm").value,
+      measurement_count: document.getElementById("measurementCount").value
+    },
+    measurement_result: lastMeasurementResult,
+    note: "Bu rapor OpenCV tabanlı prototip uygulama tarafından otomatik oluşturulmuştur."
+  };
+
+  const jsonText = JSON.stringify(report, null, 2);
+
+  const blob = new Blob([jsonText], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const sectionId = document.getElementById("sectionId").value || "section";
+  const fileName = `measurement_report_${sectionId}.json`;
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+
+  URL.revokeObjectURL(url);
+
+  status.innerText = "Rapor oluşturuldu ve indirildi.";
 }

@@ -131,3 +131,6 @@ pre {
     grid-template-columns: 1fr;
   }
 }
+button.report {
+  background: #1b8f5a;
+}
